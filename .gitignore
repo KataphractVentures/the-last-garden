@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.openai/*.local*
+*.log
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.vercel/
+qa/
+opus/
+QA.md
+PLAYTEST_REPORT.md
+.DS_Store
+Thumbs.db

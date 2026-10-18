@@ -1,0 +1,44 @@
+[
+  {
+    "source": "video/src/robots/Robot.tsx",
+    "sha256": "0436a4148a6cc8035e6eb203fe8a81ea47d9efaad3ceb71a7366dd276bceb50a",
+    "bytes": 8560,
+    "use": "Adapted source geometry and deterministic rig; no maker logos shipped"
+  },
+  {
+    "source": "video/src/robots/parts.tsx",
+    "sha256": "dfc71341d01faae58e6afc36e2d7d5d30ae4516c460cf88d3cdb685eb648e047",
+    "bytes": 24407,
+    "use": "Adapted source geometry and deterministic rig; no maker logos shipped"
+  },
+  {
+    "source": "video/src/robots/signatures.tsx",
+    "sha256": "9e9fefe07166cf8ee0abab6e21b3e4d06a142da39ad46218ba2aa6cb64a0c1ca",
+    "bytes": 21839,
+    "use": "Adapted source geometry and deterministic rig; no maker logos shipped"
+  },
+  {
+    "source": "video/src/robots/motion.ts",
+    "sha256": "40944bdd84bb23641b63382a24ea217ac3de0b7c758130aa654e39a6f35e42dc",
+    "bytes": 5555,
+    "use": "Adapted source geometry and deterministic rig; no maker logos shipped"
+  },
+  {
+    "source": "video/src/robots/expressions.ts",
+    "sha256": "76e5c9f1bd68d617becba5e94d94af7f93784e3eb302073ba82975c8342d8952",
+    "bytes": 1405,
+    "use": "Adapted source geometry and deterministic rig; no maker logos shipped"
+  },
+  {
+    "source": "video/src/robots/cast.ts",
+    "sha256": "71da570ec8f36e823e7d29685e75b9f66aafad7043d573de66aacfb7cda966cc",
+    "bytes": 4478,
+    "use": "Adapted source geometry and deterministic rig; no maker logos shipped"
+  },
+  {
+    "source": "video/src/lib/iso.ts",
+    "sha256": "b4bc1fc72c382f0397fa6427018262d66eea28984fc559481e38d163587f09d8",
+    "bytes": 2191,
+    "use": "Adapted source geometry and deterministic rig; no maker logos shipped"
+  }
+]

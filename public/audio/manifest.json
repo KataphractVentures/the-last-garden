@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "title": "The Last Garden — original game audio",
+  "generatedAt": "2026-10-15",
+  "provider": "ElevenLabs Creative Studio MCP",
+  "music": {
+    "garden": "audio/garden.mp3",
+    "laboratory": "audio/laboratory.mp3",
+    "civilization": "audio/civilization.mp3"
+  },
+  "effects": {
+    "tend": "audio/tend.mp3",
+    "buy": "audio/buy.mp3",
+    "research": "audio/research.mp3",
+    "alert": "audio/alert.mp3",
+    "chapter": "audio/chapter.mp3"
+  },
+  "models": {
+    "music": "eleven_music_v2",
+    "effects": "eleven_text_to_sound_v2",
+    "narration": "deferred; live catalog reports eleven_v4 for speech"
+  },
+  "generationCount": 8,
+  "assets": [
+    {
+      "key": "garden",
+      "type": "music",
+      "path": "audio/garden.mp3",
+      "modelId": "eleven_music_v2",
+      "durationSeconds": 70,
+      "requestedDurationSeconds": 70,
+      "status": "completed",
+      "prompt": "Original instrumental ambient game music, 70 seconds, for a gentle robot tending a bioluminescent garden at twilight. Warm felt piano, soft glass mallets, low analog pads, faint brushed mechanical pulse. Wonder and care with a tiny trace of uncertainty. Slow 72 BPM, D major suspended harmonies, sparse arrangement that sits beneath reading. Consistent texture suitable for continuous background looping; begin and end with the same soft sustained D pad, no dramatic ending or silence. Absolutely no voices, no lyrics, no speech.",
+      "bytes": 1698514,
+      "sha256": "29fe1b6c67bed40a7352451860aaa0358ac405711e3196d2c3874a19e7a6d31b",
+      "header": "494433040000000106085453",
+      "mp3Validation": {
+        "mpegLayer": 3,
+        "frames": 2919,
+        "durationIncludingEncoderPaddingSeconds": 70.056,
+        "sampleRates": [
+          48000
+        ],
+        "trailingBytes": 0,
+        "valid": true
+      }
+    },
+    {
+      "key": "laboratory",
+      "type": "music",
+      "path": "audio/laboratory.mp3",
+      "modelId": "eleven_music_v2",
+      "durationSeconds": 60,
+      "requestedDurationSeconds": 60,
+      "status": "completed",
+      "prompt": "Original instrumental ambient game soundtrack, 60 seconds, for an AI safety research laboratory inside a luminous botanical civilization. Curious interlocking glass marimba patterns, soft plucked synth, restrained ticking percussion, warm sustained pads. Thoughtful discovery and precision with humane warmth. Slow 84 BPM, D minor and suspended harmonies. Moderate soft dynamics, no heroic climax. Consistent background texture with a gentle sustained opening and matching ending for looping. No voices, no lyrics, no speech.",
+      "bytes": 1458322,
+      "sha256": "616d44c6ce9aec96187dce04e5bc5990e3c44d7cbf3f714f201351ea277a6f09",
+      "header": "494433040000000106085453",
+      "mp3Validation": {
+        "mpegLayer": 3,
+        "frames": 2502,
+        "durationIncludingEncoderPaddingSeconds": 60.048,
+        "sampleRates": [
+          48000
+        ],
+        "trailingBytes": 0,
+        "valid": true
+      }
+    },
+    {
+      "key": "civilization",
+      "type": "music",
+      "path": "audio/civilization.mp3",
+      "modelId": "eleven_music_v2",
+      "durationSeconds": 60,
+      "requestedDurationSeconds": 60,
+      "status": "completed",
+      "prompt": "Original instrumental ambient strategy-game music, 60 seconds, for a civilization grown from a robot garden facing consequential choices. Quiet elegant tension, contemplative and humane, never horror. Deep smooth synthesizer, distant bowed strings, delicate recurring piano notes, barely audible granular pulse. Slow 64 BPM, D minor suspended harmonies, sparse melody and restrained dynamics suitable beneath text. Steady texture with matching soft sustained beginning and ending for looping. No percussion impacts, no vocals, no speech, no lyrics.",
+      "bytes": 1458322,
+      "sha256": "fe4f2a808eb1d918530b0f53ac2ce4154466adb65539c079da10da2726e736e5",
+      "header": "494433040000000106085453",
+      "mp3Validation": {
+        "mpegLayer": 3,
+        "frames": 2502,
+        "durationIncludingEncoderPaddingSeconds": 60.048,
+        "sampleRates": [
+          48000
+        ],
+        "trailingBytes": 0,
+        "valid": true
+      }
+    },
+    {
+      "key": "tend",
+      "type": "sfx",
+      "path": "audio/tend.mp3",
+      "modelId": "eleven_text_to_sound_v2",
+      "durationSeconds": 0.8,
+      "requestedDurationSeconds": 0.8,
+      "status": "completed",
+      "prompt": "A single soft tactile game UI confirmation: tiny crystalline droplet chime with a warm wooden tap underneath, as a friendly robot tends a glowing seedling. Gentle, rounded, pleasant on frequent repetition, quick clean decay, no harsh treble, no ambience, no speech.",
+      "bytes": 30961,
+      "sha256": "764cabd247b18764d5fb847538850f550cf8f360ec568208b9e14f9128e40b2d",
+      "header": "494433040000000106085453",
+      "mp3Validation": {
+        "mpegLayer": 3,
+        "frames": 33,
+        "durationIncludingEncoderPaddingSeconds": 0.862,
+        "sampleRates": [
+          44100
+        ],
+        "trailingBytes": 0,
+        "valid": true
+      }
+    },
+    {
+      "key": "buy",
+      "type": "sfx",
+      "path": "audio/buy.mp3",
+      "modelId": "eleven_text_to_sound_v2",
+      "durationSeconds": 1.36,
+      "requestedDurationSeconds": 1.4,
+      "status": "completed",
+      "prompt": "Single gentle science-fiction garden building purchased sound: soft miniature servo whirr opening like a flower, two light wooden mechanical clicks, ending in one warm bell glint. Compact friendly tactile UI sound, clean decay, no background, no speech, no big impact.",
+      "bytes": 40156,
+      "sha256": "7ade28fed193ec555f4de4fca50086ca378daba4e4324e8d1bd2a2e17d6e075d",
+      "header": "494433040000000106085453",
+      "mp3Validation": {
+        "mpegLayer": 3,
+        "frames": 55,
+        "durationIncludingEncoderPaddingSeconds": 1.437,
+        "sampleRates": [
+          44100
+        ],
+        "trailingBytes": 0,
+        "valid": true
+      }
+    },
+    {
+      "key": "research",
+      "type": "sfx",
+      "path": "audio/research.mp3",
+      "modelId": "eleven_text_to_sound_v2",
+      "durationSeconds": 2.48,
+      "requestedDurationSeconds": 2.5,
+      "status": "completed",
+      "prompt": "Single research discovery sound for a thoughtful science game: three delicate ascending glass notes resolve into a soft warm synth shimmer. Curious and quietly rewarding, no fanfare, no loud impact, clean trailing decay, no ambience, no speech.",
+      "bytes": 57711,
+      "sha256": "5565bceb4569a409f6382a67d2b95ba0f580631d3152ff49f85faac404aa43ad",
+      "header": "494433040000000106085453",
+      "mp3Validation": {
+        "mpegLayer": 3,
+        "frames": 97,
+        "durationIncludingEncoderPaddingSeconds": 2.534,
+        "sampleRates": [
+          44100
+        ],
+        "trailingBytes": 0,
+        "valid": true
+      }
+    },
+    {
+      "key": "alert",
+      "type": "sfx",
+      "path": "audio/alert.mp3",
+      "modelId": "eleven_text_to_sound_v2",
+      "durationSeconds": 1.76,
+      "requestedDurationSeconds": 1.8,
+      "status": "completed",
+      "prompt": "Single gentle attention signal for a strategy game: two low rounded electronic bell pulses with a small breathy digital texture. A serious but non-alarming reminder to review evidence. Quiet soft attack, no siren, no emergency alarm, no harsh frequencies, no ambience, no speech.",
+      "bytes": 46426,
+      "sha256": "42afe581e079dd97bc4f96806dce8c346dde1a1f30d7aa1da39e97964300c2b9",
+      "header": "494433040000000106085453",
+      "mp3Validation": {
+        "mpegLayer": 3,
+        "frames": 70,
+        "durationIncludingEncoderPaddingSeconds": 1.829,
+        "sampleRates": [
+          44100
+        ],
+        "trailingBytes": 0,
+        "valid": true
+      }
+    },
+    {
+      "key": "chapter",
+      "type": "sfx",
+      "path": "audio/chapter.mp3",
+      "modelId": "eleven_text_to_sound_v2",
+      "durationSeconds": 4,
+      "requestedDurationSeconds": 4,
+      "status": "completed",
+      "prompt": "Single cinematic chapter transition for a botanical robot civilization game: a soft airy swell, a delicate glass arpeggio, and a low warm resonant chord that fades cleanly. Wonder with responsibility, restrained and elegant, no epic drums, no impact, no voice, no speech.",
+      "bytes": 82370,
+      "sha256": "c939169f4ae2c2e7262f01d7938ea59beadc581261f96656c513e067f11d6196",
+      "header": "494433040000000106085453",
+      "mp3Validation": {
+        "mpegLayer": 3,
+        "frames": 156,
+        "durationIncludingEncoderPaddingSeconds": 4.075,
+        "sampleRates": [
+          44100
+        ],
+        "trailingBytes": 0,
+        "valid": true
+      }
+    }
+  ],
+  "verification": {
+    "providerAllCompleted": true,
+    "providerHasFailures": false,
+    "localFileChecks": "All eight files have valid MPEG Layer III frames, expected durations, and recorded SHA-256 hashes.",
+    "looping": "Music requested compatible sustained endings; use short runtime crossfade, not guaranteed sample-perfect.",
+    "browserPlayback": "To be checked in full-game integration."
+  }
+}
