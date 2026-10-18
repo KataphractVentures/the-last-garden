@@ -50,7 +50,7 @@ The repository includes the historical snapshots required by the regression test
 
 This is a static Vite/React application. Vercel uses `npm ci`, `npm run build`, and the `dist` output directory, as recorded in `vercel.json`. It needs no runtime API keys or backend services. The Git repository root is the game directory.
 
-Production is hosted in the Kataphract Ventures Vercel project `the-last-garden`. From an authorized, linked checkout, `vercel deploy --prod --scope kataphract-ventures` publishes an update. Git-triggered deployments require granting the existing Vercel GitHub app access to this repository and connecting it to the project.
+Production is hosted in the Kataphract Ventures Vercel project `the-last-garden`, connected to this GitHub repository. Pushes to `main` deploy to production; pull requests receive preview deployments. From an authorized, linked checkout, `vercel deploy --prod --scope kataphract-ventures` also publishes an update.
 
 ## Source and credits
 
