@@ -12,7 +12,7 @@ export type ProgressionAction =
   | { kind: 'story'; label: string; eventId: string }
   | { kind: 'foundation'; label: string; projectId: string; requiredProjectId: string }
   | { kind: 'bench'; label: string; program?: ProgramId }
-  | { kind: 'library' | 'tend' | 'workshop' | 'advance' | 'ending' | 'tree'; label: string };
+  | { kind: 'library' | 'allocation' | 'tend' | 'workshop' | 'advance' | 'ending' | 'tree'; label: string };
 
 export interface GuideProgress {
   /** Exact displayed-world amounts; do not compare rounded labels to decide completion. */
@@ -20,7 +20,7 @@ export interface GuideProgress {
   target: string;
   fraction: number;
   met: boolean;
-  unit: 'lifetime tokens' | 'research' | 'projects' | 'decisions' | 'programs';
+  unit: 'tokens' | 'lifetime tokens' | 'research' | 'projects' | 'decisions' | 'programs';
 }
 
 export interface GuideRequirement {
@@ -102,6 +102,38 @@ function productionAction(state: GameState): ProgressionAction {
   return !owned && !canStart ? { kind: 'tend', label: 'Go to tending' } : { kind: 'workshop', label: 'Visit the workshop' };
 }
 
+function requirementAction(state: GameState, requirement: GuideProgress): ProgressionAction {
+  if (requirement.unit === 'lifetime tokens') return productionAction(state);
+  if (requirement.unit === 'research') return { kind: 'allocation', label: 'Adjust research allocation' };
+  return { kind: 'library', label: 'Open research library' };
+}
+
+function requirementTitle(state: GameState, requirement: GuideProgress): string {
+  const target = formatAmount(requirement.target, state.settings.notation);
+  if (requirement.unit === 'lifetime tokens') return `Produce ${target} lifetime tokens`;
+  if (requirement.unit === 'research') return `Prepare ${target} research`;
+  return `Develop ${target} laboratory projects`;
+}
+
+/** Introduce idle production while preserving pending/ready story priority. */
+function openingProductionGoal(state: GameState, requirement: GuideProgress): ProgressionGuide['goal'] | null {
+  if (state.chapter !== 1 || requirement.unit !== 'lifetime tokens') return null;
+  if (!state.decisions.first_request) return {
+    title: `Make your first ${formatAmount(requirement.target, state.settings.notation)} tokens`,
+    detail: 'Tap or hold Tend garden. Total output unlocks the first conversation.',
+    progress: requirement, action: productionAction(state),
+  };
+  const hasProduction = PRODUCERS.some(producer => producer.category === 'production' && (state.producers[producer.id] || 0) > 0);
+  if (hasProduction) return null;
+  const helperBudget = progress(state.tokens, getCost(state, 'helper', 1).cost, 'tokens');
+  return {
+    title: helperBudget.met ? 'Buy your first Seedling Helper' : 'Save for your first helper',
+    detail: 'Helpers make tokens automatically while you explore. This is spendable balance; story progress keeps counting all earned output.',
+    progress: helperBudget,
+    action: helperBudget.met ? { kind: 'workshop', label: 'Buy a Seedling Helper' } : { kind: 'tend', label: 'Earn helper funds' },
+  };
+}
+
 /** Derived display of the existing chapter gates. No prices, gates, or scheduling rules are changed. */
 export function getProgressionGuide(state: GameState): ProgressionGuide {
   if (state.ending) return {
@@ -162,7 +194,7 @@ export function getProgressionGuide(state: GameState): ProgressionGuide {
   }
   if (!conversations.met && conversation) {
     if (conversation.phase === 'deferred-study') return { ...base, status: 'conversation', goal: {
-      title: 'Your current study can finish',
+      title: state.paused ? 'Resume the current study' : `Study running · ${Math.ceil(state.activeExperiment?.remaining ?? 0)}s of game time left`,
       detail: state.paused ? 'Resume to finish the study. The character moment can wait.' : `A character moment waits until this study finishes.${conversation.cooldownSeconds > 0 ? ` Its conversation gap has ${Math.ceil(conversation.cooldownSeconds)} simulation seconds remaining.` : ''}`,
       action: { kind: 'bench', label: 'View the current study', program: state.activeExperiment?.config.program },
     } };
@@ -170,32 +202,34 @@ export function getProgressionGuide(state: GameState): ProgressionGuide {
       // A character's breathing room is not a chapter gate. Keep the next concrete core target visible.
       const nextCore = core.find(event => !state.decisions[event.id]);
       const missingCore = nextCore && conversationConditions(state, nextCore, projectCount).find(condition => !condition.met);
-      if (missingCore) return { ...base, status: missingCore.unit === 'lifetime tokens' ? 'production' : 'research', goal: {
-        title: 'Next chapter conversation',
+      if (missingCore) return { ...base, status: missingCore.unit === 'lifetime tokens' ? 'production' : 'research', goal: openingProductionGoal(state, missingCore) ?? {
+        title: requirementTitle(state, missingCore),
         detail: `${missingCore.unit === 'lifetime tokens' ? 'Earned output unlocks it; spending keeps this progress.' : 'Meet this research requirement to unlock it.'} Character moment: at least ${Math.ceil(conversation.cooldownSeconds)} simulation seconds.`,
-        progress: missingCore, action: missingCore.unit === 'lifetime tokens' ? productionAction(state) : { kind: 'library', label: 'Open research library' },
+        progress: missingCore, action: requirementAction(state, missingCore),
       } };
       return { ...base, status: 'conversation', goal: {
-        title: 'Room for the garden to grow',
+        title: state.paused ? 'Resume for the next character moment' : `Character moment in ${Math.ceil(conversation.cooldownSeconds)}s of game time`,
         detail: state.paused ? 'Resume the simulation to continue the gap between character moments.' : `Next character moment: at least ${Math.ceil(conversation.cooldownSeconds)} simulation seconds. Chapter decisions can arrive sooner.`,
         action: productionAction(state),
       } };
     }
     const missing = conversation.conditions.find(condition => !condition.met);
     if (!missing) return { ...base, status: 'conversation', goal: {
-      title: 'The next conversation is ready',
+      title: state.paused ? 'Resume for the next conversation' : conversation.cooldownSeconds > 0 ? `Next conversation in ${Math.ceil(conversation.cooldownSeconds)}s of game time` : 'The next conversation is ready',
       detail: state.paused ? 'Resume the simulation to receive it.' : conversation.cooldownSeconds > 0 ? `Arrives in ${Math.ceil(conversation.cooldownSeconds)} simulation seconds.` : 'Arrives on the next simulation step.',
     } };
-    return { ...base, status: missing.unit === 'lifetime tokens' ? 'production' : 'research', goal: {
-      title: conversation.optional ? 'Another moment in the garden' : 'Next chapter conversation',
+    return { ...base, status: missing.unit === 'lifetime tokens' ? 'production' : 'research', goal: openingProductionGoal(state, missing) ?? {
+      title: requirementTitle(state, missing),
       detail: missing.unit === 'lifetime tokens' ? 'Earned output unlocks the conversation. Spending tokens keeps this progress.' : 'Meet the research requirement to unlock the conversation.',
-      progress: missing, action: missing.unit === 'lifetime tokens' ? productionAction(state) : { kind: 'library', label: 'Open research library' },
+      progress: missing, action: requirementAction(state, missing),
     } };
   }
   const unmet = requirements.find(requirement => !requirement.met);
   if (unmet) return { ...base, status: unmet.id === 'output' ? 'production' : 'research', goal: {
-    title: unmet.title, detail: unmet.id === 'foundation' ? 'Develop this foundation to prepare the next chapter.' : unmet.detail,
-    progress: unmet.id === 'foundation' ? foundationBudget : unmet.progress, action: unmet.action,
+    title: unmet.id === 'output' && unmet.progress ? requirementTitle(state, unmet.progress) : unmet.id === 'foundation' && foundationBudget && !foundationBudget.met ? requirementTitle(state, foundationBudget) : unmet.title,
+    detail: unmet.id === 'foundation' ? foundationBudget && !foundationBudget.met ? `Reserve research for ${unmet.title}. Research grows automatically from allocated compute.` : 'Develop this foundation to prepare the next chapter.' : unmet.detail,
+    progress: unmet.id === 'foundation' ? foundationBudget : unmet.progress,
+    action: unmet.id === 'foundation' && foundationBudget && !foundationBudget.met ? { kind: 'allocation', label: 'Adjust research allocation' } : unmet.action,
   } };
   if (finalChapter) return { ...base, status: 'final', goal: { title: 'Choose what remains', detail: 'The ending panel shows which settlements your institutions can sustain.', action: { kind: 'ending', label: 'Review possible endings' } } };
   return { ...base, status: 'ready', goal: { title: 'Ready for the next chapter', detail: chapterEligibility(state).reason, action: { kind: 'advance', label: `Continue to ${CHAPTERS.find(item => item.id === state.chapter + 1)?.title || 'the next chapter'}` } } };

@@ -1,4 +1,8 @@
 /* The bench leads with its live protocol. Detailed methods stay within reach. */
+.lab-mobile-submit,.lab-archive-back{display:none}
+.lab-archive-result,.lab-archive>aside{scroll-margin-top:12px;min-width:0}
+.lab-archive-result>.lab-result{margin-top:0}
+.lab-bar-sample{display:block;font-size:9px;line-height:1.5;margin-top:3px}
 .lab-panel{padding:18px 20px 26px}
 .lab-panel .lab-header{padding-bottom:12px;gap:18px;align-items:center}
 .lab-panel .lab-header h2{font-size:28px;line-height:1.1}
@@ -183,4 +187,26 @@
   .lab-panel .lab-protocol-heading>.lab-section-heading{display:none}
   .lab-panel .lab-protocol-heading .lab-run-strip{padding:0;margin:0;border:0}
   .lab-protocol-heading{margin-bottom:12px}
+}
+
+/* Keep the next action beside the work on narrow screens. */
+@media(max-width:800px){
+  .lab-panel .lab-archive-back{display:inline-flex;align-items:center;min-height:44px;font-size:13px;margin:0 0 10px}
+}
+@media(max-width:620px){
+  .lab-panel .lab-mobile-submit{display:grid;gap:10px;margin-top:18px;padding:14px;border:1px solid var(--lab-line);border-radius:8px;background:#11231b}
+  .lab-mobile-submit>div{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:5px 12px}
+  .lab-mobile-submit>.lab-mobile-study-status{display:grid;gap:6px}
+  .lab-mobile-study-status b{font-size:14px;line-height:1.5;color:#d6e4c8}
+  .lab-mobile-submit strong{font:23px Georgia,serif;color:#d6e4c8}
+  .lab-mobile-submit strong small,.lab-mobile-submit>div>span{font:11px/1.5 system-ui,sans-serif;color:#afc39c}
+  .lab-panel .lab-mobile-submit .lab-budget-warning{font-size:12px;line-height:1.5;margin:0;padding:8px}
+  .lab-panel .lab-mobile-submit>button{width:100%;min-height:44px;font-size:13px}
+}
+@media(max-width:500px){
+  .lab-panel .lab-bar{grid-template-columns:minmax(0,1fr) auto;gap:7px 10px;font-size:12px}
+  .lab-panel .lab-bar>span{grid-column:1;grid-row:1;min-width:0}
+  .lab-panel .lab-bar>b{grid-column:2;grid-row:1;font-size:13px}
+  .lab-panel .lab-bar>div{grid-column:1 / -1;grid-row:2;height:8px}
+  .lab-panel .lab-bar-sample{font-size:10px}
 }

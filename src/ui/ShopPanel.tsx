@@ -47,6 +47,7 @@ export function ShopPanel({state,dispatch}:{state:GameState;dispatch:Dispatch}){
  const [view,setView]=useState<'producers'|'upgrades'>('producers');
  const [support,setSupport]=useState(false);
  const [selling,setSelling]=useState(false);
+ const [automationOpen,setAutomationOpen]=useState(Boolean(state.autoBuy));
  const available=UPGRADES.filter(upgrade=>!state.upgrades.includes(upgrade.id)&&upgrade.chapter<=state.chapter&&(!upgrade.producer||(state.producers[upgrade.producer]||0)>=(upgrade.requiredCount||0)));
  const rates=getRates(state);
  const unavailable=state.paused||Boolean(state.ending);
@@ -79,13 +80,16 @@ export function ShopPanel({state,dispatch}:{state:GameState;dispatch:Dispatch}){
      {[1,10,25,'max'].map(value=><button key={value} aria-pressed={quantity===value} className={quantity===value?'active':''} onClick={()=>setQuantity(value as number|'max')}>{value==='max'?'Max':`×${value}`}</button>)}
     </div>
    </div>
-   <section className="shop-automation shop-standing-order" aria-label="Controlled purchasing automation">
-    <div><Repeat2 size={18}/><div><h3>Auto-buy <span className="shop-order-state">{state.autoBuy?'On':'Off'}</span></h3><p>Buy one unit each second when affordable. <strong>Can spend all available tokens.</strong></p></div></div>
+   <details className="shop-auto-disclosure" open={automationOpen} onToggle={event=>setAutomationOpen(event.currentTarget.open)}>
+    <summary><Repeat2 size={16}/><strong>Auto-buy</strong><span className="shop-order-state">{state.autoBuy?'On':'Off'}</span><span>{orderedFamily?.name??'Set up a repeating purchase'}</span></summary>
+    <section className="shop-automation shop-standing-order" aria-label="Controlled purchasing automation">
+    <p>Buy one unit per second when affordable. <strong>Can spend all available tokens.</strong></p>
     <div className="shop-automation-controls"><label>Standing order<select aria-label="Auto-buy producer family" value={state.autoBuy??''} disabled={unavailable} onChange={event=>dispatch({type:'autoBuy',id:event.target.value||null})}><option value="">Off · manual purchases</option>{PRODUCERS.map(producer=><option key={producer.id} value={producer.id} disabled={producer.chapter>state.chapter}>{producer.name}{producer.chapter>state.chapter?` · chapter ${producer.chapter}`:''}</option>)}</select></label><button disabled={!state.autoBuy||unavailable} onClick={()=>dispatch({type:'autoBuy',id:null})}><Square size={12}/> Stop</button></div>
     {orderedFamily&&nextOrder&&<div className="shop-order-savings"><div><span>Next purchase · {orderedFamily.name}</span><strong>{formatAmount(state.tokens,notation)} / {formatAmount(nextOrder.cost,notation)} <small>tokens</small></strong></div><progress value={orderProgress} max={1} aria-label={`Available tokens for the next ${orderedFamily.name} unit`}/>{orderReducesOutput&&<p className="shop-order-tradeoff">The next unit would reduce current output. Add capacity or change this order.</p>}</div>}
     {state.autoBuy&&<small>{state.ending?'Civilization complete. This order is inactive.':state.paused?'Paused with the world.':state.pendingEvent&&state.settings.readingPause?'Waiting for your story decision.':`Repeating ${PRODUCERS.find(producer=>producer.id===state.autoBuy)?.name??'the authorized family'} purchases until stopped.`}</small>}
     <details className="shop-order-details"><summary>How this order works</summary><p>The order attempts one unit per simulation second at its full current price. It stays within this family, pauses with the world and at protected story decisions, and never changes permissions or chooses story responses. Larger deployments make existing clearance stale; review it after expansion.</p></details>
-   </section>
+   </section></details>
+   {state.autoBuy&&<p className="shop-auto-warning">Auto-buy can spend all available tokens.{orderReducesOutput?' The next unit would reduce output; add capacity or change this order.':''}</p>}
    <div className="producer-list">{readyProducers.map(producer=>{
     const index=PRODUCERS.indexOf(producer),Icon=icons[index]||Sprout;
     const count=state.producers[producer.id]||0;
@@ -106,8 +110,17 @@ export function ShopPanel({state,dispatch}:{state:GameState;dispatch:Dispatch}){
      <div className="producer-icon" style={{'--item-color':producer.color} as CSSProperties}><Icon size={24} strokeWidth={1.5}/></div>
      <div className="producer-info">
       <div><h3>{producer.name}</h3><span className="owned-count">{count.toLocaleString()} owned</span>{state.autoBuy===producer.id&&<span className="shop-auto-badge"><Repeat2 size={10}/> Auto-buy</span>}</div>
-      <p>{producer.description}</p><small>{producer.benefit}</small>
-      <p className="shop-unit-data">{unitDescription(producer)}</p>
+      <p>{producer.category==='production'?'Makes tokens automatically.':producer.benefit}</p>
+      {!locked&&selectedQuantity>0&&<>
+      <div className={`shop-quick-rate ${paidChange.lt(0)&&!selling?'has-tradeoff':''}`}>
+       <span>{producer.category==='production'?'Paid output':producer.category==='compute'?'Compute capacity':producer.category==='review'?'Review flow':producer.category==='institution'?'Research flow':'Recoverable authority'}</span>
+       <strong>{producer.category==='production'?`${signed(paidChange.toString(),notation)}/s`:producer.category==='compute'?signed(computeChange,notation):producer.category==='review'?`${signed(reviewChange,notation)}/s`:producer.category==='institution'?`${signed(researchChange.toString(),notation)}/s`:selling?'Capacity removed':'Capacity added'}</strong>
+      </div>
+      {paidChange.lt(0)&&!selling&&<p className="shop-purchase-warning">This purchase reduces output. Add capacity or review your allocation.</p>}
+      {producer.chapter>=3&&!selling&&<p className="shop-purchase-warning">Expansion makes prior deployment clearance stale.</p>}
+      {selling&&<p className="shop-purchase-warning">Service dependence and commitments remain after resale.</p>}
+      </>}
+      <details className="shop-producer-details"><summary>Rates & details</summary><p>{producer.description}</p><small>{producer.benefit}</small><p className="shop-unit-data">{unitDescription(producer)}</p>
       {!locked&&selectedQuantity>0&&<div className={`shop-rate-preview ${paidChange.lt(0)&&!selling?'has-tradeoff':''}`}>
        <span className="shop-preview-count">{selling?'After selling':'After adding'} {selectedQuantity.toLocaleString()} · {count.toLocaleString()} → {nextCount.toLocaleString()} owned</span>
        <dl>
@@ -119,7 +132,7 @@ export function ShopPanel({state,dispatch}:{state:GameState;dispatch:Dispatch}){
        {producer.category==='production'&&<small>Production utilization: {Math.round(rates.utilization*100)}% → {Math.round(next.utilization*100)}%. {paidChange.lt(0)&&!selling?'This purchase would reduce current output; capacity or specialization needs attention.':producer.chapter>=3&&!selling?'New deployment makes prior clearance stale.':''}</small>}
        {producer.category==='control'&&<small>The recall target changes over time. This purchase does not itself provide a new observation.</small>}
        {selling&&<small>Refund: {formatAmount(refund,notation)} tokens. Service dependence and commitments remain.</small>}
-      </div>}
+      </div>}</details>
       {!locked&&!selling&&quantity==='max'&&price.quantity===0&&<p className="shop-next-cost">Next unit: {formatAmount(getCost(state,producer.id,1).cost,notation)} tokens. None affordable yet.</p>}
      </div>
      <button className="purchase-button" title={unavailableReason||undefined} disabled={unavailable||locked||(selling?sellQuantity===0:!canBuy)} onClick={()=>dispatch(selling?{type:'sell',id:producer.id,quantity:sellQuantity}:{type:'buy',id:producer.id,quantity})}>

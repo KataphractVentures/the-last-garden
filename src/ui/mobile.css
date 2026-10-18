@@ -74,7 +74,9 @@
   .civ-modal-backdrop { padding: max(10px, env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) max(10px, env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px)); }
   .civ-modal { max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); overscroll-behavior: contain; }
   .civ-modal .civ-close { position: sticky; top: 0; float: right; z-index: 2; background: #20392b; min-width: 44px; }
-  .toast { max-width: calc(100vw - 24px); padding: 10px 12px; font-size: 12px; }
+  .app .toast { width: min(420px, calc(100vw - 24px)); max-width: none; padding: 10px 12px; font-size: 12px; bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
+  .app:has(.decision-fab) .toast { bottom: calc(154px + env(safe-area-inset-bottom, 0px)); }
+  .toast > svg, .toast button { flex-shrink: 0; }
   .toast button { min-width: 44px; min-height: 44px; }
 }
 

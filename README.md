@@ -27,9 +27,9 @@ The story is fictional. Linked Field notes distinguish documented incidents, res
 
 ## Controls, sound, and saves
 
-Use **G / L / C / F** to switch sections and **Space** or the Tend button to tend the garden. Shortcuts stay out of text fields and dialogs. Pause, assisted tending, reduced motion, and playtest speed are available in the interface and Settings.
+Use **G / L / C / F** to switch sections and **Space** or the Tend button to tend the garden. Shortcuts stay out of text fields and dialogs. **Auto-tend** removes repeated tapping with the same four-actions-per-second limit. Pause, reduced motion, and playtest speed are available in the interface and Settings.
 
-On phones, **tap or hold Tend garden** and use the bottom navigation. Choose Civilization views from its menu, tap a Field note to jump to the article, and find **How to play** in Settings. Forms, sliders, purchase buttons, and dialogs adapt to smaller screens in portrait or landscape.
+On phones, **tap or hold Tend garden** and use the bottom navigation. Choose Civilization views from its menu, tap a Field note or study record to jump to its contents, and find **How to play** in Settings. Workshop details expand on demand; research setup ends with its run or review action. Forms, sliders, purchase buttons, and dialogs adapt to smaller screens in portrait or landscape.
 
 Music and sound are **on by default**. If your browser blocks autoplay, playback starts after your next click or key press. Use the speaker button to mute or Settings to adjust volume. Explicit mute and volume choices are remembered in this browser, independently of imported saves.
 

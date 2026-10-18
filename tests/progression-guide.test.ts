@@ -38,6 +38,29 @@ test('fresh goal directs tending until a production unit is affordable, then dir
   assert.equal(getProgressionGuide(state).goal.action?.kind, 'workshop');
 });
 
+test('opening introduces a first helper using spendable funds, without overriding a waiting decision', () => {
+  const state = createGame(1701, 0);
+  assert.equal(getProgressionGuide(state).goal.title, 'Make your first 10 tokens');
+  state.lifetime = '20'; state.tokens = '14.999'; state.decisions.first_request = 'check';
+  let guide = getProgressionGuide(state);
+  assert.equal(guide.goal.title, 'Save for your first helper');
+  assert.equal(guide.goal.progress?.unit, 'tokens');
+  assert.equal(guide.goal.progress?.target, getCost(state, 'helper', 1).cost);
+  assert.equal(guide.goal.progress?.met, false);
+  assert.equal(guide.goal.action?.kind, 'tend');
+  state.tokens = '15';
+  guide = getProgressionGuide(state);
+  assert.equal(guide.goal.title, 'Buy your first Seedling Helper');
+  assert.equal(guide.goal.progress?.met, true);
+  assert.equal(guide.goal.action?.kind, 'workshop');
+  state.pendingEvent = 'second_pair';
+  assert.equal(getProgressionGuide(state).goal.action?.kind, 'story');
+  state.pendingEvent = null; state.lifetime = '30';
+  assert.equal(getProgressionGuide(state).status, 'conversation');
+  state.lifetime = '20'; state.producers.tender = 1;
+  assert.equal(getProgressionGuide(state).goal.title, 'Produce 30 lifetime tokens');
+});
+
 test('unmet checklist amounts never display rounded equality with the requirement', () => {
   const state = resolvedChapter(2);
   state.lifetime = '2999.999';
@@ -47,6 +70,21 @@ test('unmet checklist amounts never display rounded equality with the requiremen
   assert.equal(output.progress?.current, '2999.999');
   state.lifetime = '3000';
   assert.equal(getProgressionGuide(state).requirements.find(row => row.id === 'output')?.detail, '3K / 3K lifetime tokens');
+});
+
+test('later production goals name the exact milestone for both story and chapter gates', () => {
+  const state = createGame(1701, 0);
+  state.chapter = 2; state.lifetime = '2500'; state.producers.helper = 1;
+  const storyGoal = getProgressionGuide(state).goal;
+  assert.equal(storyGoal.title, 'Produce 3K lifetime tokens');
+  assert.equal(storyGoal.progress?.target, '3000');
+  assert.equal(storyGoal.action?.kind, 'workshop');
+  const completedStory = resolvedChapter(2);
+  completedStory.lifetime = '2500'; completedStory.producers.helper = 1;
+  const chapterGoal = getProgressionGuide(completedStory).goal;
+  assert.equal(chapterGoal.title, 'Produce 3K lifetime tokens');
+  assert.equal(chapterGoal.progress?.target, storyGoal.progress?.target);
+  assert.equal(chapterGoal.action?.kind, 'workshop');
 });
 
 test('ready conversation follows engine priority and content order for every chapter and boundary', () => {
@@ -82,9 +120,15 @@ test('pending and cooldown are explicit, and paused scheduling does not promise 
   state.lifetime = '10'; state.eventCooldown = 11.5;
   let guide = getProgressionGuide(state);
   assert.equal(guide.nextConversation?.cooldownSeconds, 11.5);
+  assert.equal(guide.goal.title, 'Next conversation in 12s of game time');
   assert.match(guide.goal.detail, /12 simulation seconds/);
   assert.equal(tick(state, .25).pendingEvent, null);
+  state.settings.speed = 10;
+  assert.equal(getProgressionGuide(state).goal.title, 'Next conversation in 12s of game time');
+  state.eventCooldown = 0;
+  assert.equal(getProgressionGuide(state).goal.title, 'The next conversation is ready');
   state.paused = true;
+  assert.equal(getProgressionGuide(state).goal.title, 'Resume for the next conversation');
   assert.match(getProgressionGuide(state).goal.detail, /Resume/);
   state.pendingEvent = 'first_request';
   guide = getProgressionGuide(state);
@@ -102,7 +146,10 @@ test('character scenes wait for study completion, while core, optional incidents
   let guide = getProgressionGuide(state);
   assert.equal(guide.nextConversation?.eventId, 'character_sprig_1');
   assert.equal(guide.nextConversation?.phase, 'deferred-study');
+  assert.equal(guide.goal.title, 'Study running · 1s of game time left');
   assert.match(guide.goal.detail, /until this study finishes/);
+  const pausedStudy = { ...state, paused: true };
+  assert.equal(getProgressionGuide(pausedStudy).goal.title, 'Resume the current study');
   const running = tick(state, .25);
   assert.equal(running.pendingEvent, null);
   assert.equal(getProgressionGuide(running).nextConversation?.phase, 'deferred-study');
@@ -219,7 +266,7 @@ test('a cooling character moment does not hide the next chapter conversation out
   assert.equal(guide.nextConversation?.eventId, 'character_sprig_1');
   assert.equal(guide.nextConversation?.phase, 'deferred-cooldown');
   assert.equal(guide.status, 'production');
-  assert.equal(guide.goal.title, 'Next chapter conversation');
+  assert.equal(guide.goal.title, 'Produce 8.20K lifetime tokens');
   assert.equal(guide.goal.progress?.current, '7000');
   assert.equal(guide.goal.progress?.target, '8200');
   assert.equal(guide.goal.progress?.unit, 'lifetime tokens');
@@ -241,15 +288,31 @@ test('pending copy distinguishes character moments from optional incidents', () 
 
 test('foundation gate names the actual project and links legacy gaps to the first missing prerequisite', () => {
   const first = resolvedChapter(1);
+  first.research = '10';
   let guide = getProgressionGuide(first);
   assert.equal(guide.goal.title, 'A notebook with an honest margin');
   assert.equal(guide.goal.progress?.target, '10');
   assert.equal(guide.goal.action?.kind, 'foundation');
   const later = resolvedChapter(4);
-  later.lifetime = '300000'; later.projects = ['foundation-1'];
+  later.lifetime = '300000'; later.projects = ['foundation-1']; later.research = '25';
   guide = getProgressionGuide(later);
   assert.equal(guide.goal.title, 'A second pair of hands');
   assert.deepEqual(guide.goal.action, { kind: 'foundation', label: 'Open The experimental bench', projectId: 'foundation-2', requiredProjectId: 'foundation-4' });
+});
+
+test('an unfunded foundation points to research generation, then returns to its actual project at the exact budget', () => {
+  const state = resolvedChapter(1);
+  state.research = '9.999';
+  const shortage = getProgressionGuide(state);
+  assert.equal(shortage.goal.title, 'Prepare 10 research');
+  assert.match(shortage.goal.detail, /A notebook with an honest margin/);
+  assert.equal(shortage.goal.progress?.unit, 'research');
+  assert.equal(shortage.goal.progress?.met, false);
+  assert.deepEqual(shortage.goal.action, { kind: 'allocation', label: 'Adjust research allocation' });
+  // The checklist still offers the named project, so its explanation remains reachable.
+  assert.equal(shortage.requirements.find(requirement => requirement.id === 'foundation')?.action?.kind, 'foundation');
+  state.research = '10';
+  assert.equal(getProgressionGuide(state).goal.action?.kind, 'foundation');
 });
 
 test('all chapter requirement checks agree with engine gates including inactive charter and mastery', () => {

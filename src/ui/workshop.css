@@ -1,4 +1,21 @@
 .shop-panel .shop-standing-order{margin:0 0 14px;padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,.8fr);gap:9px 18px;align-items:center;background:#1b2719;border-color:#607b4659}
+.shop-auto-disclosure{margin:0 0 12px;border:1px solid #607b4659;border-radius:8px;background:#1b2719}
+.shop-auto-disclosure>summary{display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-height:44px;padding:9px 12px;cursor:pointer;color:#c6ddad;font-size:12px;list-style:none}
+.shop-auto-disclosure>summary::-webkit-details-marker{display:none}
+.shop-auto-disclosure>summary:after{content:'+';margin-left:auto;font-size:18px}
+.shop-auto-disclosure[open]>summary:after{content:'−'}
+.shop-auto-disclosure>summary>span:last-child{font-size:11px;color:#adbf9a}
+.shop-panel .shop-auto-disclosure .shop-standing-order{margin:0;border:0;border-top:1px solid #607b4633;border-radius:0 0 8px 8px}
+.shop-auto-disclosure .shop-standing-order>p{grid-column:1/-1;margin:0}
+.shop-panel .shop-auto-warning,.shop-panel .shop-purchase-warning{color:#e2bd91;font-size:11px;line-height:1.5}
+.shop-panel .shop-auto-warning{margin:-4px 0 12px}
+.shop-panel .producer-info .shop-quick-rate{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:7px;padding:6px 0;color:#a9bf94;font-size:11px}
+.shop-quick-rate strong{font:12px ui-monospace,monospace;color:#cee3b6}
+.shop-quick-rate.has-tradeoff strong{color:#e2bd91}
+.shop-producer-details{font-size:11px;color:#a8bd93}
+.shop-producer-details>summary{width:fit-content;cursor:pointer;padding:4px 0}
+.shop-producer-details .shop-rate-preview{margin-top:8px}
+@media(max-width:600px){#main .shop-panel .shop-quick-rate{font-size:12px}#main .shop-quick-rate strong{font-size:14px}.shop-producer-details{font-size:12px}}
 .shop-panel .shop-standing-order>div:first-child{gap:9px}
 .shop-panel .shop-standing-order h3{display:flex;align-items:center;gap:9px;margin:0 0 5px;font-size:12px}
 .shop-order-state{padding:2px 5px;border:1px solid #90ab7066;border-radius:4px;font:9px ui-monospace,monospace;color:#c6ddad}
