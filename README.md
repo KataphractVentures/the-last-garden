@@ -4,6 +4,8 @@ An incremental strategy game from **Kataphract Ventures**, set in the illustrate
 
 ## Play
 
+[**Play The Last Garden**](https://the-last-garden-one.vercel.app/)
+
 Tend for tokens, hire Seedling Helpers, and follow the next-step guide. The Laboratory unlocks controlled experiments; Civilization adds policies, communities, institutions, and a constitution-specific strategy board. Optional character scenes wait until a study finishes and arrive at least 90 active simulation seconds apart.
 
 - Seven campaign chapters, a recurring robot cast, and six endings.
@@ -47,6 +49,8 @@ The repository includes the historical snapshots required by the regression test
 ## Deploy
 
 This is a static Vite/React application. Vercel uses `npm ci`, `npm run build`, and the `dist` output directory, as recorded in `vercel.json`. It needs no runtime API keys or backend services. The Git repository root is the game directory.
+
+Production is hosted in the Kataphract Ventures Vercel project `the-last-garden`. From an authorized, linked checkout, `vercel deploy --prod --scope kataphract-ventures` publishes an update. Git-triggered deployments require granting the existing Vercel GitHub app access to this repository and connecting it to the project.
 
 ## Source and credits
 
