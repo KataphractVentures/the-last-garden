@@ -128,7 +128,7 @@
   .app-header { padding: 0 10px; gap: 4px; }
   .brand { gap: 7px; }
   .brand strong { font-size: 10px; letter-spacing: .07em; }
-  .brand small { display: none; }
+  .brand small { display: block; font-size: 9px; letter-spacing: normal; }
   .brand-mark { width: 26px; height: 31px; }
   .brand-mark svg { width: 19px; }
   .header-actions { gap: 0; }
