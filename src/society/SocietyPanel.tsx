@@ -1,3 +1,4 @@
+import { BookOpen, HeartHandshake, Wrench } from 'lucide-react';
 import type { CommunityId, SocietyCaseDefinition, SocietyChoice, SocietyCommand, SocietyDecision, SocietyHost, SocietyQuote, SocietyResponse } from './types';
 import { HUMAN_COMMUNITIES, SOCIETY_CASES, availableSocietyCases, availableSocietyDecisions, communitySituation, societyCaseQuote, societyDecisionQuote, societyEffects, societyEndingEligibility, societyRepairQuote, societyView } from './index';
 import { formatAmount } from '../engine/amounts';
@@ -99,13 +100,13 @@ export function SocietyPanel({state,dispatch}:{state:SocietyHost & {paused?:bool
   };
 
   return <div className="society-panel">
-    <header className="society-intro"><p className="civ-eyebrow">People beyond the garden</p><h2>A good life belongs to someone.</h2><p>Choose who shares the gains. See how work, care, and community life change.</p></header>
+    <header className="society-intro"><h2>Life beyond the garden</h2><p>Share the gains. Keep people’s own projects alive.</p></header>
     {lockReason&&<p className="society-note" role="status">{lockReason}</p>}
     {society.legacyBaseline&&<p className="society-note">Records start here. Earlier choices and outcomes have not been invented.</p>}
     <div className="society-ledger">
       <div><small>Ongoing public levy</small><strong>{percent(effects.levy)}</strong><span>of paid income</span></div>
-      <div><small>Public spending to date</small><strong>{formatAmount(society.spent)}</strong><span>tokens, including restitution</span></div>
-      <div><small>Provision funded</small><strong>{Math.round(society.funding*100)}%</strong><span>of the amount due this step</span></div>
+      <div><small>Public spending</small><strong>{formatAmount(society.spent)}</strong><span>tokens, including restitution</span></div>
+      <div><small>Provision funded</small><strong>{Math.round(society.funding*100)}%</strong><span>of this step’s obligation</span></div>
     </div>
     {state.chapter<2?<p className="society-next">First decision in chapter 2 <span>Choose how work changes as the garden grows.</span></p>:<div className={`society-readiness ${readiness.allowed?'is-ready':''}`}>
       <strong>{actionsDue?`${actionsDue} public ${actionsDue===1?'decision needs':'decisions need'} you`:readiness.allowed?'Community duties settled':'Communities need attention'}</strong>
@@ -113,7 +114,7 @@ export function SocietyPanel({state,dispatch}:{state:SocietyHost & {paused?:bool
     </div>}
     {(pendingDecisions.length>0||pendingCases.length>0)&&<div className="society-action-queue" aria-label="Public decisions needing attention">{pendingDecisions.map(renderDecision)}{pendingCases.map(renderCase)}</div>}
     <section className="society-outcomes" aria-labelledby="society-community-heading">
-      <header className="society-section-heading"><div><p className="civ-eyebrow">Ongoing consequences</p><h3 id="society-community-heading">Three communities. Different lives.</h3></div><span>Fictional indices · 0–100</span></header>
+      <header className="society-section-heading"><div><p className="civ-eyebrow">Ongoing consequences</p><h3 id="society-community-heading">Community outcomes</h3></div><span>Fictional indices · 0–100</span></header>
       <div className="society-ownership" aria-label="Ownership of gains">
         <div className="society-ownership-title"><strong>Who owns the gains</strong><span>Share of ownership</span></div>
         <div className="society-ownership-track" aria-hidden="true">{society.communities.map(community=><span key={community.id} className={`society-owner-${community.id}`} style={{width:`${community.ownership}%`}} />)}</div>
@@ -123,7 +124,7 @@ export function SocietyPanel({state,dispatch}:{state:SocietyHost & {paused?:bool
         const person=HUMAN_COMMUNITIES.find(item=>item.id===community.id)!;
         const outcome=society.cases.find(item=>SOCIETY_CASES.find(def=>def.id===item.id)?.affected===community.id);
         return <article className={`society-community society-person-${community.id}`} key={community.id}>
-          <p className="civ-eyebrow">{person.name}</p><h3>{person.person}</h3><small>{person.role}</small>
+          <div className="society-community-heading"><span aria-hidden="true">{community.id==='harbor'?<Wrench/>:community.id==='riverside'?<HeartHandshake/>:<BookOpen/>}</span><div><p className="civ-eyebrow">{person.name}</p><h3>{person.person}</h3><small>{person.role}</small></div></div>
           <div className="society-meters"><CommunityMeter label="Household resources" value={community.income} floor={35} /><CommunityMeter label="Essential access" value={community.access} floor={40} />{community.transition>.1&&<CommunityMeter label="Transition burden · lower is better" value={community.transition} burden />}</div>
           <div className="society-project"><strong>{person.project}</strong><p>{communitySituation(state,community.id)}</p><CommunityMeter label="Continuity" value={community.projectContinuity} /><CommunityMeter label="Participation & meaning" value={community.meaning} /></div>
           {person.refusal&&<p className={`society-refusal ${society.decisions.life==='mandate'?'is-violated':''}`}><strong>{society.decisions.life==='mandate'?'Refusal overridden':'A right to refuse'}</strong>The storytellers decline AI participation. They welcome transport and a place to meet.</p>}

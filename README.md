@@ -4,20 +4,34 @@ An incremental strategy game from **Kataphract Ventures**, set in the illustrate
 
 ## Play
 
-[**Play The Last Garden**](https://the-last-garden-one.vercel.app/)
+[**Play The Last Garden**](https://the-last-garden-one.vercel.app/) · [Source on GitHub](https://github.com/KataphractVentures/the-last-garden)
 
-Tend for tokens, hire Seedling Helpers, and follow the next-step guide. The Laboratory unlocks controlled experiments; Civilization adds policies, communities, institutions, and a constitution-specific strategy board. Optional character scenes wait until a study finishes and arrive at least 90 active simulation seconds apart.
+Tend for tokens, hire Seedling Helpers, and follow the next-step guide. As the garden grows, production shares the stage with research and the society that depends on it.
+
+- **Garden:** the animated world comes first, beside a compact goal and progress panel. Expand goals or resources for details; narrow screens use bottom navigation.
+- **Laboratory:** select stages in the experiment diagram to reach their controls. Set up a study, compare its result, and expand methods or raw observations when you need them. Replication and stronger evidence unlock advanced research.
+- **Civilization:** inspect the permission network, society meters, and operating policies. **Public Authority** has its own tab with an attention badge for assemblies, approvals, and agreements. Communities and constitution-specific strategy have dedicated views.
+- **Field notes:** explore the linked factual archive behind the fictional campaign.
+
+## Campaign and prestige
 
 - Seven campaign chapters, a recurring robot cast, and six endings.
 - Five shared safety research programs plus a unique sixth program for each constitution.
 - Six constitutional economies with different research and economic decisions.
 - Refit, Reinitialize, and Reframe prestige; branching worlds and twelve scenario modifiers.
-- An illustrated world that zooms from workbench to planet, with original music and effects.
-- Keyboard navigation, reduced motion, assisted tending, pause, and save export/import.
+- An illustrated world that zooms from workbench to planet, with music and effects.
 
-Normal-speed campaigns target around **8–12 hours**, including reading and decisions. Accelerated 10× and 60× playtest settings use the same mechanics. The latest six-world casual model finished in 10h38m–12h04m per world; these are scripted estimates, not measured human completion times.
+Normal-speed campaigns target around **8–12 hours**, including reading and decisions. Pacing estimates come from scripted simulations, not measured human completion times. Accelerated 10× and 60× playtest settings use the same mechanics. Optional character scenes wait until a study finishes and arrive at least 90 active simulation seconds apart.
 
 The story is fictional. Linked Field notes distinguish documented incidents, researchers' arguments, and game abstractions. Laboratory experiments are reproducible fictional models, not evaluations of real AI systems or measurements of consciousness.
+
+## Controls, sound, and saves
+
+Use **G / L / C / F** to switch sections and **Space** or the Tend button to tend the garden. Shortcuts stay out of text fields and dialogs. Pause, assisted tending, reduced motion, and playtest speed are available in the interface and Settings.
+
+Music and sound are **on by default**. If your browser blocks autoplay, playback starts after your next click or key press. Use the speaker button to mute or Settings to adjust volume. Explicit mute and volume choices are remembered in this browser, independently of imported saves.
+
+Automatic saves and rotating backups stay in your browser. Different domains and local addresses have separate saves. Use **Settings → Export save / Import save** to transfer progress or keep a backup before clearing website data. Inactive civilization branches do not advance.
 
 ## Run locally
 
@@ -35,7 +49,7 @@ npm run build
 npm run preview
 ```
 
-On Windows, `Start-Game.cmd` serves an existing production build. Saves stay in your browser. Different domains and local addresses have separate saves; **Settings → Export / Import** transfers them.
+On Windows, `Start-Game.cmd` serves an existing production build.
 
 ## Test
 
