@@ -1,6 +1,6 @@
 # The Last Garden
 
-An incremental strategy game from **Kataphract Ventures**, set in the illustrated world of **AITokenGarden**. Start as a helpful token-making robot and grow a garden into a civilization. Research, institutions, human agency, and AI welfare determine what that civilization becomes.
+An incremental strategy game from **Ridge and Reason**, set in the illustrated world of **AITokenGarden**. Start as a helpful token-making robot and grow a garden into a civilization. Research, institutions, human agency, and AI welfare determine what that civilization becomes.
 
 ## Play
 
@@ -33,11 +33,15 @@ Music and sound are **on by default**. If your browser blocks autoplay, playback
 
 Automatic saves and rotating backups stay in your browser. Different domains and local addresses have separate saves. Use **Settings → Export save / Import save** to transfer progress or keep a backup before clearing website data. Inactive civilization branches do not advance.
 
-## Run locally
+## Local development (optional)
 
-Requires Node.js **22.12 or later** and npm.
+Use these instructions to develop the game or run your own local copy. [Playing online](https://the-last-garden-one.vercel.app/) requires no installation.
+
+Requires Git, Node.js **22.12 or later**, and npm.
 
 ```sh
+git clone https://github.com/KataphractVentures/the-last-garden.git
+cd the-last-garden
 npm ci
 npm run dev
 ```
@@ -64,7 +68,7 @@ The repository includes the historical snapshots required by the regression test
 
 This is a static Vite/React application. Vercel uses `npm ci`, `npm run build`, and the `dist` output directory, as recorded in `vercel.json`. It needs no runtime API keys or backend services. The Git repository root is the game directory.
 
-Production is hosted in the Kataphract Ventures Vercel project `the-last-garden`, connected to this GitHub repository. Pushes to `main` deploy to production; pull requests receive preview deployments. From an authorized, linked checkout, `vercel deploy --prod --scope kataphract-ventures` also publishes an update.
+Production is hosted in the Vercel project `the-last-garden`, connected to this GitHub repository. Pushes to `main` deploy to production; pull requests receive preview deployments.
 
 ## Source and credits
 
