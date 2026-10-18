@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import App from './App';
 import './styles.css';
 import './ui/garden-layout.css';
+import './ui/mobile.css';
 
 class ErrorBoundary extends React.Component<{children:React.ReactNode},{error:string}> {
   state={error:''};

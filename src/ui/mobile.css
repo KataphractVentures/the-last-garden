@@ -1,0 +1,170 @@
+/* Phone controls share the same simulation, costs and progression as desktop. */
+.mobile-tending-hint, .mobile-notes-back, .civ-view-picker { display: none; }
+.settings-help { margin: 12px 0 4px; }
+#manual-tending { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+
+@media (max-width: 960px) {
+  html { -webkit-text-size-adjust: 100%; }
+  .app { padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+  .app-header { padding-top: env(safe-area-inset-top, 0px); height: calc(58px + env(safe-area-inset-top, 0px)); }
+  .app-header nav { padding-left: max(8px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px)); }
+  .app-header .header-help { display: none; }
+  .app-header .brand strong { font-size: 12px; letter-spacing: .06em; }
+  .app-header .brand small { font-size: 10px; }
+  .app-header .header-actions .icon-button { width: 44px; height: 44px; flex-shrink: 0; }
+  .brand-mark { flex-shrink: 0; }
+  .desktop-tending-hint { display: none; }
+  .mobile-tending-hint { display: inline; }
+
+  /* Actual targets, rather than just their drawn icons, must accept a fingertip. */
+  #main button:not(.garden-tend-target), #main summary,
+  .modal button, .modal summary, .civ-modal button, .app-footer button, .app-footer a {
+    min-height: 44px;
+  }
+  #main button:not(.garden-tend-target), .modal .icon-button { min-width: 44px; }
+  #main summary, .modal summary { align-content: center; }
+  #main :is(button, summary), .app-header button, .modal button { touch-action: manipulation; }
+  #main #manual-tending { touch-action: none; }
+  #main :is(select, textarea, input[type="text"], input[type="number"], input[type="search"], input:not([type])),
+  .modal :is(select, textarea, input[type="text"], input[type="number"], input[type="search"]), .civ-modal select {
+    font-size: 16px; min-height: 44px; min-width: 0; max-width: 100%;
+  }
+  #main input[type="range"], .modal input[type="range"] {
+    appearance: none; -webkit-appearance: none; height: 44px;
+    background: transparent; padding: 0; touch-action: pan-y;
+  }
+  #main input[type="range"]::-webkit-slider-runnable-track, .modal input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px; border-radius: 8px; background: #63744f;
+  }
+  #main input[type="range"]::-webkit-slider-thumb, .modal input[type="range"]::-webkit-slider-thumb {
+    appearance: none; -webkit-appearance: none; width: 24px; height: 24px;
+    margin-top: -9px; border: 2px solid #e1edca; border-radius: 50%; background: #a9c97e;
+  }
+  #main input[type="range"]::-moz-range-track, .modal input[type="range"]::-moz-range-track {
+    height: 6px; border-radius: 8px; background: #63744f;
+  }
+  #main input[type="range"]::-moz-range-thumb, .modal input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px; border: 2px solid #e1edca; border-radius: 50%; background: #a9c97e;
+  }
+  #main .toggle-inline, #main .lab-check, .modal .settings-row { min-height: 44px; }
+  .scene-foot .toggle-inline { gap: 9px; }
+  .scene-foot input[type="checkbox"], .lab-check input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; }
+  .modal .settings-row input[role="switch"] { width: 44px; height: 28px; border-radius: 16px; }
+  .modal .settings-row input[role="switch"]::after { width: 20px; height: 20px; }
+  .modal .settings-row input[role="switch"]:checked::after { transform: translateX(16px); }
+
+  .modal[open] {
+    display: flex; flex-direction: column; overflow: hidden; margin: auto;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    width: calc(100% - 20px); max-width: 620px;
+  }
+  .modal.wide { max-width: 920px; }
+  .modal > header { flex: 0 0 auto; gap: 8px; padding: 10px 14px; }
+  .modal > header h2 { font-size: 21px; }
+  .modal > header .icon-button { flex-shrink: 0; }
+  .modal .modal-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 16px; }
+  .modal .modal-body:has(.story-card) { padding: 0; }
+  .modal .settings-row { flex-wrap: wrap; gap: 10px; }
+  .modal .settings-row > span { flex: 1; min-width: 130px; }
+  .modal .settings-row strong { font-size: 14px; }
+  .modal .settings-row small { font-size: 12px; }
+  .modal .settings-row input[type="range"] { flex: 1 0 100%; max-width: none; }
+  .modal .button-row > button { flex: 1 1 auto; }
+  .civ-modal-backdrop { padding: max(10px, env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) max(10px, env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px)); }
+  .civ-modal { max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); overscroll-behavior: contain; }
+  .civ-modal .civ-close { position: sticky; top: 0; float: right; z-index: 2; background: #20392b; min-width: 44px; }
+  .toast { max-width: calc(100vw - 24px); padding: 10px 12px; font-size: 12px; }
+  .toast button { min-width: 44px; min-height: 44px; }
+}
+
+@media (max-width: 600px) {
+  /* Two columns keep late-campaign values and scientific notation separate. */
+  .resource-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; padding: 4px 14px; }
+  .resource { padding: 0; }
+  .resource:nth-child(2n) { border-right: 0; }
+  .resource:nth-child(-n+2) { border-bottom: 1px solid #34412d80; }
+  .resource summary { min-height: 48px; gap: 0; }
+  .resource summary > div { min-width: 0; width: 100%; }
+  .resource-label { font-size: 11px; }
+  .resource strong { display: block; max-width: 100%; font-size: 20px; overflow-wrap: anywhere; }
+  .resource small { max-width: min(240px, calc(100vw - 28px)); font-size: 12px; }
+  .resource:nth-child(odd) small { left: 0; right: auto; }
+  .resource:nth-child(even) small { right: 0; left: auto; }
+  .next-step-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .next-step-actions { width: 100%; max-width: none; }
+  .next-step-actions button { font-size: 13px; }
+  .goal-progress-label { flex-wrap: wrap; gap: 4px; }
+  .world-card .garden-scene-caption { max-width: calc(100% - 165px); }
+  .world-card .garden-scene-caption strong { font-size: 11px; }
+  .world-card .scene-foot { font-size: 11px; line-height: 1.5; }
+  .scene-foot .toggle-inline { margin-left: 0; }
+
+  #main .shop-tools { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+  #main .shop-tools .filter-tabs, #main .purchase-controls { display: flex; width: 100%; gap: 6px; }
+  #main .shop-tools .filter-tabs button, #main .purchase-controls button { flex: 1; font-size: 12px; padding: 8px; }
+  #main .shop-panel .segmented button { font-size: 13px; }
+  #main .shop-panel .producer { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; padding: 14px; }
+  #main .shop-panel .producer-info { min-width: 0; }
+  #main .shop-panel .producer-info > div { flex-wrap: wrap; gap: 5px 8px; }
+  #main .shop-panel .producer-info h3 { font-size: 15px; }
+  #main .shop-panel .producer-info p, #main .shop-panel .producer-info small { font-size: 12px; line-height: 1.6; }
+  #main .shop-panel .purchase-button { grid-column: 2; width: 100%; margin: 0; min-width: 0; font-size: 14px; justify-content: center; }
+  #main .shop-rate-preview dl { grid-template-columns: 1fr; }
+  #main .shop-rate-preview :is(dt, dd), #main .shop-preview-count { font-size: 12px; }
+  #main .shop-panel .shop-standing-order { display: flex; flex-direction: column; align-items: stretch; padding: 14px; }
+  #main .shop-standing-order h3 { font-size: 14px; }
+  #main .shop-panel .shop-standing-order p { font-size: 12px; }
+  #main .shop-automation-controls { flex-wrap: wrap; }
+  #main .shop-automation-controls label { flex: 1 1 100%; }
+  #main .shop-automation-controls select { width: 100%; }
+  #main .upgrade-grid { grid-template-columns: 1fr; }
+  .story-choices { grid-template-columns: 1fr; }
+  .help-grid { grid-template-columns: 1fr; }
+  .modal .help-grid p { font-size: 14px; }
+  .app-footer { font-size: 11px; }
+  .app-footer > div { gap: 10px 16px; }
+}
+
+@media (max-width: 680px) {
+  #main .civ-tabs { display: none; }
+  #main .civ-view-picker { display: grid; grid-template-columns: 1fr; gap: 7px; color: #c4d7ad; font-size: 12px; }
+  #main .civ-view-picker select { width: 100%; padding: 10px; border: 1px solid #536d45; border-radius: 7px; background: #14251b; color: #e2ecd5; }
+  #main .lab-panel .lab-config-grid { grid-template-columns: 1fr; }
+  #main .lab-panel .lab-interventions > div { grid-template-columns: 1fr; }
+  #main .lab-panel .lab-interventions label { padding: 12px; font-size: 13px; }
+  #main .lab-panel .lab-protocol-heading .lab-run-strip { flex-wrap: wrap; }
+  #main .lab-panel .lab-protocol-heading .lab-run-strip button { max-width: none; }
+  #main .lab-panel .lab-run-feedback p { font-size: 12px; }
+  #main .lab-panel .lab-compact-status { font-size: 12px; }
+  #main .lab-panel .lab-status-row { display: flex; flex-wrap: wrap; }
+  #main .lab-panel .lab-compact-clearance { flex: 1 1 160px; }
+  #main .lab-panel .lab-study-picker { gap: 8px; }
+  #main .lab-panel .lab-study-picker select { flex: 1; width: 0; }
+  #main .lab-panel .lab-program-picker { grid-template-columns: auto minmax(0, 1fr); gap: 8px; }
+  #main .lab-panel .lab-completed-study { flex-wrap: nowrap; gap: 8px; padding: 12px; }
+  #main .lab-panel .lab-completed-study > div { min-width: 0; }
+  #main .lab-panel .lab-completed-study > span { display: none; }
+  #main .lab-panel .lab-completed-study > button { margin: 0; flex: 0 0 92px; padding: 8px; }
+}
+
+@media (max-width: 760px) {
+  #main .mobile-notes-back { display: inline-flex; align-items: center; margin-bottom: 12px; font-size: 14px; }
+  .archive-reading, .archive-index { scroll-margin-top: 12px; }
+  .archive-reading p { font-size: 14px; line-height: 1.8; }
+  #main .archive-toolbar select { width: 100%; }
+  .search-field { max-width: 100%; }
+  .search-field input { width: 100%; min-width: 0; }
+  #main .civ-policy-option small, #main .civ-policy-option em { font-size: 12px; }
+}
+
+@media (max-width: 360px) {
+  .brand-mark { display: none; }
+  .app-header .brand strong { font-size: 11px; }
+  #main .garden-camera-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; }
+  #main .garden-camera-controls button { font-size: 11px; }
+}
+
+@media (max-width: 960px) and (max-height: 500px) and (orientation: landscape) {
+  .world-card .garden-viewport { aspect-ratio: 21 / 9; }
+}

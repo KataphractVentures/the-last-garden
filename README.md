@@ -29,6 +29,8 @@ The story is fictional. Linked Field notes distinguish documented incidents, res
 
 Use **G / L / C / F** to switch sections and **Space** or the Tend button to tend the garden. Shortcuts stay out of text fields and dialogs. Pause, assisted tending, reduced motion, and playtest speed are available in the interface and Settings.
 
+On phones, **tap or hold Tend garden** and use the bottom navigation. Choose Civilization views from its menu, tap a Field note to jump to the article, and find **How to play** in Settings. Forms, sliders, purchase buttons, and dialogs adapt to smaller screens in portrait or landscape.
+
 Music and sound are **on by default**. If your browser blocks autoplay, playback starts after your next click or key press. Use the speaker button to mute or Settings to adjust volume. Explicit mute and volume choices are remembered in this browser, independently of imported saves.
 
 Automatic saves and rotating backups stay in your browser. Different domains and local addresses have separate saves. Use **Settings → Export save / Import save** to transfer progress or keep a backup before clearing website data. Inactive civilization branches do not advance.

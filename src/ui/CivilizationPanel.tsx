@@ -37,6 +37,7 @@ function Modal({title,children,onClose}:{title:string;children:ReactNode;onClose
   closeRef.current=onClose;
   useEffect(()=>{
     const previous=document.activeElement as HTMLElement|null;
+    const overflow=document.body.style.overflow;document.body.style.overflow='hidden';
     const element=ref.current;
     const first=element?.querySelector<HTMLElement>('button,select,input,[tabindex="0"]');
     first?.focus();
@@ -49,7 +50,7 @@ function Modal({title,children,onClose}:{title:string;children:ReactNode;onClose
       else if(!event.shiftKey&&document.activeElement===end){event.preventDefault();start?.focus();}
     }
     document.addEventListener('keydown',key);
-    return()=>{document.removeEventListener('keydown',key);previous?.focus();};
+    return()=>{document.removeEventListener('keydown',key);document.body.style.overflow=overflow;previous?.focus({preventScroll:true});};
   },[]);
   return <div className="civ-modal-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget)onClose();}}><div className="civ-modal" role="dialog" aria-modal="true" aria-labelledby="civ-dialog-title" ref={ref}><button className="civ-close" aria-label="Close preview" onClick={onClose}><X size={20}/></button><p className="civ-eyebrow">A deliberate commitment</p><h2 id="civ-dialog-title">{title}</h2>{children}</div></div>;
 }
@@ -169,6 +170,7 @@ export function CivilizationPanel({state,dispatch,initialTab='institutions',onOp
     requestAnimationFrame(()=>{panelRef.current?.scrollIntoView({block:'start'});button?.scrollIntoView({block:'nearest',inline:'nearest'});});
   };
   return <div ref={panelRef} className="civilization-panel" data-reduced-motion={state.settings.reducedMotion||undefined}>
+    <label className="civ-view-picker">Civilization<select aria-label="Civilization view" value={tab} onChange={event=>selectTab(event.target.value as Tab)}>{tabs.map(item=>{const count=item.id==='authority'?authorityAttention:item.id==='communities'&&!state.ending?societyPendingCount(state):0;return <option key={item.id} value={item.id}>{item.label}{count?` · ${count} need attention`:item.id==='incidents'&&state.incidentStage>0?' · Active incident':''}</option>;})}</select></label>
     <div className="civ-tabs" role="tablist" aria-label="Civilization views">{tabs.map((item,index)=><button key={item.id} id={`civ-tab-${item.id}`} role="tab" aria-selected={tab===item.id} aria-controls={`civ-view-${item.id}`} tabIndex={tab===item.id?0:-1} onKeyDown={event=>{if(['ArrowRight','ArrowLeft','Home','End'].includes(event.key)){event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;selectTab(tabs[next]!.id,true);}}} className={tab===item.id?'is-active':''} onClick={()=>selectTab(item.id)}>{item.icon}<span>{item.label}</span>{item.id==='authority'&&authorityAttention>0&&<span className="civ-attention-count" aria-label={`${authorityAttention} public authority items needing attention`}>{authorityAttention}</span>}{item.id==='communities'&&societyPendingCount(state)>0&&!state.ending&&<span className="civ-attention-count" aria-label={`${societyPendingCount(state)} community decisions waiting`}>{societyPendingCount(state)}</span>}{item.id==='incidents'&&state.incidentStage>0&&<span className="civ-tab-alert" aria-label="Active incident"/>}</button>)}</div>
     <div className="civ-content" role="tabpanel" id={`civ-view-${tab}`} aria-labelledby={`civ-tab-${tab}`} tabIndex={0}>{tab==='institutions'?<Institutions state={state} dispatch={dispatch}/>:tab==='authority'?<div id="public-authority" tabIndex={-1}><GovernancePanel state={state} dispatch={dispatch} onOpenPolicies={openPolicies}/></div>:tab==='strategy'?<ConstitutionPanel state={state} dispatch={dispatch} onOpenResearch={onOpenResearch}/>:tab==='communities'?<SocietyPanel state={state} dispatch={dispatch}/>:tab==='people'?<People state={state}/>:tab==='incidents'?<Incidents state={state} dispatch={dispatch}/>:<CivilizationTree state={state} dispatch={dispatch}/>}</div>
   </div>;
