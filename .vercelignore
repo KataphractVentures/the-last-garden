@@ -1,0 +1,12 @@
+.git/
+.github/
+.env*
+.vercel/
+node_modules/
+dist/
+qa/
+opus/
+*.log
+*.tsbuildinfo
+QA.md
+PLAYTEST_REPORT.md
