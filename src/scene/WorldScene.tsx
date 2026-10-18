@@ -1,4 +1,4 @@
-import { memo, useEffect, useId, useRef, useState, type CSSProperties } from 'react';
+import { memo, useEffect, useId, useRef, useState, type ReactNode, type CSSProperties } from 'react';
 import { Robot } from './robots/Robot';
 import { appearanceFor, type RobotId } from './robots/cast';
 import type { Expression } from './robots/expressions';
@@ -16,6 +16,7 @@ export type WorldSceneProps = {
   reducedMotion: boolean;
   onTend: () => void;
   selectedCharacter?: string;
+  tendingControl?: ReactNode;
 };
 
 const CAMERAS = [
@@ -216,7 +217,7 @@ function GardenRobots({ stopped, count, welfare, distortion, selected, camera }:
   </div>;
 }
 
-export function WorldScene({ chapter, producerCount, quality, distortion, agency, welfare, dependence, paused, reducedMotion, onTend, selectedCharacter }: WorldSceneProps) {
+export function WorldScene({ chapter, producerCount, quality, distortion, agency, welfare, dependence, paused, reducedMotion, onTend, selectedCharacter, tendingControl }: WorldSceneProps) {
   const uid = `garden-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const host = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(900);
@@ -279,11 +280,12 @@ export function WorldScene({ chapter, producerCount, quality, distortion, agency
       <div className="garden-daylight" aria-hidden="true" />
       <div className="garden-vignette" aria-hidden="true" />
       <div className="garden-scene-caption"><strong>{view.name === 'Garden' ? 'The original garden' : view.name}</strong><span>{view.detail}</span></div>
+      {tendingControl && <div className="garden-tending-control">{tendingControl}</div>}
       <button className="garden-motion-button" aria-label={localPause ? 'Resume world animation' : 'Pause world animation'} title={reducedMotion ? 'Reduced motion is enabled in settings' : paused ? 'Resume the game to animate the world' : localPause ? 'Resume world animation' : 'Pause world animation'} onClick={() => setLocalPause(value => !value)} disabled={reducedMotion || paused}>{stopped ? '▶' : 'Ⅱ'}</button>
     </div>
     <div className="garden-world-toolbar">
       <div className="garden-camera-controls" role="group" aria-label="World camera scale">{CAMERAS.map((item, index) => <button key={item.name} className={camera === index ? 'is-current' : ''} aria-pressed={camera === index} onClick={() => setCamera(index)} title={item.detail}><span className="garden-camera-dot" />{item.name}</button>)}</div>
-      <button className="garden-tend-button" onClick={tend} disabled={paused}><span aria-hidden="true">✧</span> Tend garden <kbd>↵</kbd></button>
+      {!tendingControl && <button className="garden-tend-button" onClick={tend} disabled={paused}><span aria-hidden="true">✧</span> Tend garden <kbd>↵</kbd></button>}
     </div>
     <p className="garden-screen-reader" aria-live="polite">{view.name} view. {climate}. {Math.max(0, Math.floor(producerCount))} producers are represented by a bounded group of workers.</p>
   </section>;

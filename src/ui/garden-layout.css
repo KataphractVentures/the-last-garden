@@ -1,0 +1,172 @@
+/* Keep the living world above the fold; explanations stay one action away. */
+.app-header {
+  min-height: 64px;
+  height: 64px;
+  padding: 0 24px;
+  gap: 18px;
+  flex-wrap: nowrap;
+}
+.brand { min-width: 200px; flex: 0 0 auto; gap: 9px; }
+.brand-mark { width: 32px; height: 37px; border-radius: 11px 11px 4px 4px; }
+.brand strong { font-size: 11px; }
+.brand small { font-size: 10px; margin-top: 3px; }
+.app-header nav { order: 0; width: auto; margin: 0; height: auto; flex: 1; }
+.app-header nav button { padding: 0 12px; min-height: 44px; }
+.header-actions { gap: 2px; order: 0; }
+.header-actions .icon-button { width: 44px; height: 44px; padding: 10px; }
+.time-control { grid-column: auto; grid-row: auto; border: 0; padding: 0; gap: 7px; margin-right: 8px; }
+.time-control > div { display: block; }
+.time-control > div > span { font-size: 8px; letter-spacing: .04em; }
+.time-control strong { margin-top: 3px; font-size: 11px; }
+.time-control .icon-button { width: 36px; height: 44px; }
+.resource-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 7px max(24px, calc((100vw - 1620px) / 2)); gap: 20px; }
+.resource { position: relative; display: block; min-width: 0; padding-right: 14px; }
+.resource:last-child { border-right: 0; }
+.resource summary { display: flex; align-items: center; gap: 10px; min-height: 46px; cursor: pointer; list-style: none; }
+.resource summary::-webkit-details-marker { display: none; }
+.resource-icon { display: grid; flex: 0 0 30px; width: 30px; height: 33px; }
+.resource-label { display: flex; align-items: center; gap: 4px; margin: 0 0 2px; font-size: 10px; }
+.resource-label svg { transition: transform .15s; }
+.resource[open] .resource-label svg { transform: rotate(90deg); }
+.resource strong { font-size: 21px; margin: 0; line-height: 1.1; }
+.resource small { position: absolute; left: 0; top: calc(100% + 7px); z-index: 30; width: max-content; max-width: min(240px, 85vw); padding: 12px 14px; margin: 0; border: 1px solid var(--line); border-radius: 6px; background: #1c291d; color: var(--cream); box-shadow: 0 8px 24px #0006; font-size: 11px; line-height: 1.5; }
+.resource:last-child small { left: auto; right: 0; }
+.resource summary:focus-visible, .chapter-checklist summary:focus-visible, .offline-notice summary:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 3px; }
+.main-content { padding: 18px 24px 40px; }
+.garden-heading { gap: 16px; margin-bottom: 14px; }
+.garden-heading > div:first-child { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 16px; }
+.garden-heading .eyebrow { margin: 0; font-size: 9px; }
+.garden-heading h1 { margin: 0; font-size: 25px; line-height: 1.2; }
+.chapter-pips { gap: 6px; }
+.chapter-pips > span { width: 23px; height: 23px; font-size: 9px; }
+.garden-grid { grid-template-columns: minmax(0, 1fr) 310px; gap: 20px; }
+.garden-sidebar { display: flex; flex-direction: column; gap: 16px; }
+.progression-panel { margin: 0; padding: 16px 16px 0; }
+.next-step-row { display: flex; flex-direction: column; align-items: stretch; gap: 12px; padding-bottom: 14px; }
+.next-step-copy h2 { margin: 0; font-family: inherit; font-weight: 600; font-size: 15px; line-height: 1.4; }
+.next-step-copy .eyebrow { margin-bottom: 7px; font-size: 9px; }
+.next-step-actions { max-width: none; width: 100%; flex-wrap: wrap; }
+.next-step-actions button { flex: 1; min-height: 44px; padding: 9px 12px; font-size: 12px; }
+.chapter-checklist { margin: 0 -16px; }
+.chapter-checklist summary { padding: 13px 16px; min-height: 44px; font-size: 11px; }
+.chapter-checklist summary > span { font-size: 10px; }
+.chapter-checklist ul { grid-template-columns: 1fr; padding: 0 16px 14px; }
+.chapter-checklist li { flex-wrap: wrap; }
+.chapter-checklist li > .text-button { margin-left: 24px; min-height: 44px; }
+.goal-context { padding: 0 16px 8px; }
+.goal-context p { margin: 0 0 12px; font-size: 12px; line-height: 1.6; color: #c5d1ba; }
+.goal-context .chapter-context { color: #96aa87; }
+.world-card { overflow: visible; }
+.world-card .garden-world { position: relative; border-radius: 10px 10px 0 0; overflow: hidden; }
+.world-card .garden-world-topline { position: absolute; top: 12px; left: 12px; right: 12px; z-index: 3; padding: 8px 12px; background: #14251cdd; border: 1px solid #748f5e45; border-radius: 5px; pointer-events: none; font-size: 10px; }
+.world-card .garden-world-toolbar { padding: 10px 12px; gap: 12px; }
+.garden-camera-controls button { min-height: 44px; }
+.world-card .tend-button { min-height: 44px; padding: 10px 14px; font-size: 13px; white-space: nowrap; }
+.garden-tending-control { position: absolute; right: 16px; bottom: 20px; z-index: 4; }
+.world-card .garden-motion-button { top: 68px; bottom: auto; right: 16px; min-width: 44px; min-height: 44px; }
+.world-card .scene-foot { padding: 8px 14px 13px; gap: 10px; }
+.scene-foot .toggle-inline { min-height: 32px; }
+.offline-notice { padding: 0 24px; min-height: 40px; gap: 12px; }
+.offline-notice > details { flex: 1; }
+.offline-notice summary { display: flex; align-items: center; gap: 8px; width: fit-content; min-height: 40px; cursor: pointer; list-style: none; font-size: 11px; }
+.offline-notice summary::after { content: '⌄'; margin-left: 8px; }
+.offline-notice details[open] summary::after { content: '⌃'; }
+.offline-notice p { max-width: 900px; margin: 0 0 12px; line-height: 1.6; }
+.offline-notice > button { display: grid; place-items: center; min-width: 44px; min-height: 44px; }
+
+@media (max-width: 1100px) {
+  .app-header { padding: 0 18px; gap: 12px; }
+  .brand { min-width: 180px; }
+  .app-header nav button { padding: 0 9px; gap: 5px; }
+  .time-control > div { display: none; }
+  .time-control { margin-right: 2px; }
+  .garden-grid { grid-template-columns: minmax(0, 1fr) 280px; gap: 16px; }
+  .world-card .garden-world-toolbar { flex-wrap: wrap; }
+  .garden-camera-controls { flex: 1; }
+}
+
+@media (max-width: 960px) {
+  .app { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
+  .app-header { height: 58px; min-height: 58px; padding: 0 16px; }
+  .brand { flex: 1; min-width: 0; }
+  .app-header nav { position: fixed; z-index: 80; bottom: 0; left: 0; right: 0; width: 100%; height: calc(62px + env(safe-area-inset-bottom, 0px)); padding: 0 8px env(safe-area-inset-bottom, 0px); border-top: 1px solid #506541; background: #121e14f5; backdrop-filter: blur(14px); justify-content: space-around; gap: 0; }
+  .app-header nav button { flex: 1; flex-direction: column; gap: 5px; min-width: 0; padding: 8px 3px; font-size: 10px; }
+  .app-header nav button svg { width: 17px; }
+  .app-header nav button.active::after { bottom: auto; top: 0; left: 20%; right: 20%; }
+  .app-header .nav-dot { position: absolute; top: 9px; right: calc(50% - 18px); }
+  .resource-strip { padding: 6px 16px; gap: 12px; }
+  .resource { padding-right: 8px; }
+  .resource-icon { display: none; }
+  .resource strong { font-size: 21px; }
+  .resource-label { font-size: 10px; }
+  .main-content { padding: 14px 16px 32px; }
+  .garden-heading h1 { font-size: 23px; }
+  .chapter-pips { display: none; }
+  .garden-grid { grid-template-columns: 1fr; gap: 16px; }
+  /* Flatten only the layout wrappers so the goal follows the world on mobile. */
+  .garden-main, .garden-sidebar { display: contents; }
+  .garden-main > .world-card { order: 0; }
+  .garden-sidebar > .progression-panel { order: 1; }
+  .garden-main > .garden-readouts { order: 2; margin: 0; }
+  .garden-main > .workshop-destination { order: 3; }
+  .garden-sidebar > :not(.progression-panel) { order: 4; }
+  .garden-grid:has(.story-card) .garden-sidebar { grid-row: auto; }
+  .garden-grid:has(.story-card) .garden-sidebar > .allocation-card,
+  .garden-grid:has(.story-card) .garden-sidebar > .field-note-teaser { display: block; }
+  .next-step-row { flex-direction: row; align-items: center; gap: 12px; }
+  .next-step-copy { flex: 1; min-width: 0; }
+  .next-step-actions { width: auto; max-width: 45%; flex: 0 0 auto; }
+  .goal-progress { max-width: none; }
+  .world-card .garden-world-toolbar { flex-wrap: nowrap; }
+  .decision-fab { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); right: 12px; max-width: calc(100vw - 24px); z-index: 81; }
+  .toast { bottom: calc(148px + env(safe-area-inset-bottom, 0px)); }
+  .offline-notice { padding: 0 16px; }
+  html { scroll-padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
+}
+
+@media (max-width: 600px) {
+  .app-header { padding: 0 10px; gap: 4px; }
+  .brand { gap: 7px; }
+  .brand strong { font-size: 10px; letter-spacing: .07em; }
+  .brand small { display: none; }
+  .brand-mark { width: 26px; height: 31px; }
+  .brand-mark svg { width: 19px; }
+  .header-actions { gap: 0; }
+  .header-actions .icon-button { width: 40px; height: 44px; }
+  .time-control { margin: 0; }
+  .resource-strip { gap: 9px; padding: 5px 12px; }
+  .resource:nth-child(2) { border-right: 1px solid #34412d80; }
+  .resource summary { min-height: 48px; }
+  .resource-label { font-size: 9px; }
+  .resource strong { font-size: 20px; }
+  .resource:nth-child(n+3) small { left: auto; right: 0; }
+  .main-content { padding: 12px 12px 28px; }
+  .garden-heading { margin-bottom: 12px; }
+  .garden-heading > div:first-child { gap: 5px; flex-direction: column; }
+  .garden-heading h1 { font-size: 22px; }
+  .garden-heading .eyebrow { font-size: 8px; }
+  .world-card .garden-world-topline { top: 7px; left: 7px; right: 7px; padding: 6px 8px; font-size: 9px; }
+  .world-card .garden-weather { display: none; }
+  .world-card .garden-world-toolbar { flex-wrap: wrap; padding: 8px; gap: 8px; }
+  .garden-camera-controls { width: 100%; display: flex; justify-content: space-between; gap: 1px; }
+  .garden-camera-controls button { flex: 1; padding: 7px 4px; font-size: 10px; }
+  .garden-tending-control { right: 10px; bottom: 14px; }
+  .world-card .tend-button { width: auto; justify-content: center; padding: 9px 11px; font-size: 12px; }
+  .world-card .garden-motion-button { top: 47px; right: 10px; }
+  .world-card .garden-scene-caption { bottom: 16px; left: 12px; max-width: calc(100% - 180px); }
+  .world-card .garden-scene-caption span { display: none; }
+  .world-card .scene-foot { flex-wrap: wrap; padding: 2px 10px 10px; font-size: 10px; }
+  .scene-foot .toggle-inline { margin-left: auto; }
+  .progression-panel { padding: 12px 12px 0; }
+  .next-step-copy h2 { font-size: 14px; }
+  .next-step-actions { max-width: 45%; }
+  .next-step-actions button { font-size: 11px; padding: 8px 10px; }
+  .chapter-checklist { margin: 0 -12px; }
+  .chapter-checklist summary { padding: 12px; }
+  .garden-readouts { grid-template-columns: 1fr; }
+  .offline-notice { padding: 0 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resource-label svg { transition: none; }
+}
